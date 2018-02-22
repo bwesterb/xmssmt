@@ -32,8 +32,59 @@ func main() {
 			Action: cmdSpeed,
 			Flags: []cli.Flag{
 				cli.StringFlag{
-					Name:  "name, n",
+					Name:  "alg, a",
 					Usage: "benchmark instance named `NAME`",
+				},
+			},
+		},
+		{
+			Name:   "generate",
+			Usage:  "Generate an XMSS[MT] keypair",
+			Action: cmdGenerate,
+			Flags: []cli.Flag{
+				cli.StringFlag{
+					Name:  "alg, a",
+					Usage: "XMSS[MT] named instance to use, see `xmssmt algs'",
+					Value: "XMSSMT-SHAKE_40/4_256",
+				},
+				cli.IntFlag{
+					Name:  "n",
+					Usage: "Override security parameter n",
+					Value: 32,
+				},
+				cli.IntFlag{
+					Name:  "w",
+					Usage: "Override Winternitz parameter w",
+					Value: 16,
+				},
+				cli.IntFlag{
+					Name:  "full-height, t",
+					Usage: "Override full tree height parameter",
+					Value: 40,
+				},
+				cli.IntFlag{
+					Name:  "d",
+					Usage: "Override height-of-hypertree paramater d",
+					Value: 4,
+				},
+				cli.BoolFlag{
+					Name:  "force, f",
+					Usage: "Override existing files",
+				},
+				cli.StringFlag{
+					Name:  "hash, H",
+					Usage: "Override hash function to use. (Either shake or sha2)",
+					Value: "shake",
+				},
+				cli.StringFlag{
+					Name:  "privkey, s",
+					Usage: "Path to store private key at",
+					Value: "xmssmt.key",
+				},
+				cli.StringFlag{
+					Name:  "pubkey, p",
+					Usage: "Path to store public key at",
+					Value: "xmssmt.pub",
 				},
 			},
 		},

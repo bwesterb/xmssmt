@@ -60,9 +60,9 @@ func benchmarkVerify(dir string, b *testing.B) {
 
 func cmdSpeed(c *cli.Context) error {
 	var toTest []string
-	nameFlag := c.String("name")
-	if nameFlag != "" {
-		toTest = []string{nameFlag}
+	algFlag := c.String("alg")
+	if algFlag != "" {
+		toTest = []string{algFlag}
 	} else {
 		toTest = xmssmt.ListNames()
 	}
