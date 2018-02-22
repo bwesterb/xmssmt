@@ -79,7 +79,7 @@ func cmdGenerate(c *cli.Context) error {
 	if err != nil {
 		return cli.NewExitError(err, 6)
 	}
-	pkBase64, _ := pk.Base64()
+	pkBase64, _ := pk.MarshalText()
 
 	err = ioutil.WriteFile(c.String("pubkey"), pkBytes, 0644)
 	if err != nil {
