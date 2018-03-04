@@ -88,6 +88,46 @@ func main() {
 				},
 			},
 		},
+		{
+			Name:   "sign",
+			Usage:  "Create an XMSS[MT] signature",
+			Action: cmdSign,
+			Flags: []cli.Flag{
+				cli.StringFlag{
+					Name:  "privkey, s",
+					Usage: "Use private key stored at `FILE`",
+					Value: "xmssmt.key",
+				},
+				cli.StringFlag{
+					Name:  "file, f",
+					Usage: "Create a signature of `FILE`",
+				},
+				cli.StringFlag{
+					Name:  "output, o",
+					Usage: "Write signature to `FILE`",
+				},
+			},
+		},
+		{
+			Name:   "verify",
+			Usage:  "Verifies an XMSS[MT] signature",
+			Action: cmdVerify,
+			Flags: []cli.Flag{
+				cli.StringFlag{
+					Name:  "pubkey, p",
+					Usage: "Path to read public key from `FILE`",
+					Value: "xmssmt.pub",
+				},
+				cli.StringFlag{
+					Name:  "file, f",
+					Usage: "Reads message from `FILE`",
+				},
+				cli.StringFlag{
+					Name:  "signature, S",
+					Usage: "Reads signature from `FILE`",
+				},
+			},
+		},
 	}
 
 	app.Before = func(c *cli.Context) error {

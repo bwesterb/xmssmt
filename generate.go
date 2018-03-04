@@ -14,6 +14,10 @@ func cmdGenerate(c *cli.Context) error {
 	var err error
 	params := xmssmt.ParamsFromName(c.String("alg"))
 
+	if c.NArg() != 0 {
+		return cli.NewExitError("I don't expect arguments; only flags", 10)
+	}
+
 	if params == nil {
 		return cli.NewExitError(fmt.Sprintf(
 			"There is no XMSS[MT] instance named %s", c.String("alg")), 1)
