@@ -35,6 +35,10 @@ func main() {
 					Name:  "alg, a",
 					Usage: "benchmark instance named `NAME`",
 				},
+				cli.BoolFlag{
+					Name:  "cwd",
+					Usage: "look for existing key in current working directory",
+				},
 			},
 		},
 		{

@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"strconv"
 	"testing"
 
 	"github.com/bwesterb/go-xmssmt"
@@ -27,8 +28,8 @@ func benchmarkKeygen(dir string, params xmssmt.Params, b *testing.B) {
 	}
 }
 
-func benchmarkSign(dir string, b *testing.B) {
-	sk, _, _, err := xmssmt.LoadPrivateKey(dir + "/key")
+func benchmarkSign(path string, b *testing.B) {
+	sk, _, _, err := xmssmt.LoadPrivateKey(path)
 	if err != nil {
 		b.Fatalf("LoadPrivateKey: %v", err)
 	}
@@ -38,12 +39,12 @@ func benchmarkSign(dir string, b *testing.B) {
 
 	for i := 0; i < b.N; i++ {
 		sk.DangerousSetSeqNo(xmssmt.SignatureSeqNo(0))
-		sk.Sign([]byte("test message"))
+		sk.Sign([]byte(strconv.Itoa(i)))
 	}
 }
 
-func benchmarkVerify(dir string, b *testing.B) {
-	sk, pk, _, err := xmssmt.LoadPrivateKey(dir + "/key")
+func benchmarkVerify(path string, b *testing.B) {
+	sk, pk, _, err := xmssmt.LoadPrivateKey(path)
 	if err != nil {
 		b.Fatalf("LoadPrivateKey: %v", err)
 	}
@@ -60,6 +61,8 @@ func benchmarkVerify(dir string, b *testing.B) {
 
 func cmdSpeed(c *cli.Context) error {
 	var toTest []string
+	var path string
+
 	algFlag := c.String("alg")
 	if algFlag != "" {
 		toTest = []string{algFlag}
@@ -70,25 +73,35 @@ func cmdSpeed(c *cli.Context) error {
 	for _, name := range toTest {
 		fmt.Printf("%s\n", name)
 		params := xmssmt.ParamsFromName(name)
-		dir, err := ioutil.TempDir("", "go-xmssmt-tests")
-		if err != nil {
-			log.Fatalf("TempDir: %v", err)
+		if c.Bool("cwd") {
+			path = name
+			if _, err := os.Stat(path); os.IsNotExist(err) {
+				ctx, _ := xmssmt.NewContext(*params)
+				sk, _, _ := ctx.GenerateKeyPair(path)
+				sk.Close()
+			}
+		} else {
+			dir, err := ioutil.TempDir("", "go-xmssmt-tests")
+			if err != nil {
+				log.Fatalf("TempDir: %v", err)
+			}
+			defer os.RemoveAll(dir)
+			res := testing.Benchmark(func(b *testing.B) {
+				benchmarkKeygen(dir, *params, b)
+			})
+			fmt.Printf(" keygen: %20s %s\n",
+				humanize.SI(float64(res.NsPerOp())/1e9, "s"),
+				res.MemString())
+			path = dir + "/key"
 		}
-		defer os.RemoveAll(dir)
 		res := testing.Benchmark(func(b *testing.B) {
-			benchmarkKeygen(dir, *params, b)
-		})
-		fmt.Printf(" keygen: %20s %s\n",
-			humanize.SI(float64(res.NsPerOp())/1e9, "s"),
-			res.MemString())
-		res = testing.Benchmark(func(b *testing.B) {
-			benchmarkSign(dir, b)
+			benchmarkSign(path, b)
 		})
 		fmt.Printf(" sign:   %20s %s\n",
 			humanize.SI(float64(res.NsPerOp())/1e9, "s"),
 			res.MemString())
 		res = testing.Benchmark(func(b *testing.B) {
-			benchmarkVerify(dir, b)
+			benchmarkVerify(path, b)
 		})
 		fmt.Printf(" verify: %20s %s\n\n",
 			humanize.SI(float64(res.NsPerOp())/1e9, "s"),
