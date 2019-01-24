@@ -69,7 +69,7 @@ func cmdVerify(c *cli.Context) error {
 	}
 
 	if !valid {
-		return cli.NewExitError(fmt.Sprintf("Signature is *not* valid", err), 22)
+		return cli.NewExitError(fmt.Sprintf("Signature is *not* valid: %v", err), 22)
 	}
 
 	fmt.Fprintf(os.Stderr, "Signature is valid\n")
