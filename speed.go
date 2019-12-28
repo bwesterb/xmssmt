@@ -68,11 +68,18 @@ func cmdSpeed(c *cli.Context) error {
 		toTest = []string{algFlag}
 	} else {
 		toTest = xmssmt.ListNames()
+		if c.Bool("non-rfc") {
+			toTest = xmssmt.ListNames2()
+		}
 	}
 
 	for _, name := range toTest {
 		fmt.Printf("%s\n", name)
-		params := xmssmt.ParamsFromName(name)
+		params, err := xmssmt.ParamsFromName2(name)
+		if err != nil {
+			return cli.NewExitError(fmt.Sprintf(
+				"There is no XMSS[MT] instance %s: %v", name, err), 1)
+		}
 		if c.Bool("cwd") {
 			path = name
 			if _, err := os.Stat(path); os.IsNotExist(err) {

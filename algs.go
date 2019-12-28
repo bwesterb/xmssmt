@@ -18,10 +18,13 @@ func cmdAlgs(c *cli.Context) error {
 		"oid",
 		"#sigs",
 		"sigSize",
-		"w",
 		"cache size"})
-	for _, name := range xmssmt.ListNames() {
-		ctx := xmssmt.NewContextFromName(name)
+	names := xmssmt.ListNames()
+	if c.Bool("non-rfc") {
+		names = xmssmt.ListNames2()
+	}
+	for _, name := range names {
+		ctx, _ := xmssmt.NewContextFromName2(name)
 		var cacheSize uint64
 		if ctx.MT() {
 			cacheSize = uint64((ctx.Params().D+1)*ctx.Params().N) * (1 << uint64(ctx.Params().FullHeight/ctx.Params().D))
@@ -34,7 +37,6 @@ func cmdAlgs(c *cli.Context) error {
 			fmt.Sprintf("%d", ctx.Oid()),
 			fmt.Sprintf("2^%d", ctx.Params().FullHeight),
 			humanize.Bytes(uint64(ctx.SignatureSize())),
-			fmt.Sprintf("%d", ctx.Params().WotsW),
 			humanize.Bytes(uint64(cacheSize)),
 		})
 	}

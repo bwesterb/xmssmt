@@ -13,6 +13,9 @@ func main() {
 
 	app := cli.NewApp()
 
+	app.Version = "1.1.0"
+	app.Usage = "Create and verify XMSS[MT] signatures"
+
 	app.Flags = []cli.Flag{
 		cli.StringFlag{
 			Name:  "cpuprofile, p",
@@ -25,19 +28,10 @@ func main() {
 			Name:   "algs",
 			Usage:  "List XMSS[MT] instances",
 			Action: cmdAlgs,
-		},
-		{
-			Name:   "speed",
-			Usage:  "Benchmark XMSS[MT] instances",
-			Action: cmdSpeed,
 			Flags: []cli.Flag{
-				cli.StringFlag{
-					Name:  "alg, a",
-					Usage: "benchmark instance named `NAME`",
-				},
 				cli.BoolFlag{
-					Name:  "cwd",
-					Usage: "look for existing key in current working directory",
+					Name:  "non-rfc, n",
+					Usage: "Include instances which are not listed in the RFC",
 				},
 			},
 		},
@@ -129,6 +123,25 @@ func main() {
 				cli.StringFlag{
 					Name:  "signature, S",
 					Usage: "Reads signature from `FILE`",
+				},
+			},
+		},
+		{
+			Name:   "speed",
+			Usage:  "Benchmark XMSS[MT] instances",
+			Action: cmdSpeed,
+			Flags: []cli.Flag{
+				cli.StringFlag{
+					Name:  "alg, a",
+					Usage: "Benchmark instance named `NAME`",
+				},
+				cli.BoolFlag{
+					Name:  "cwd",
+					Usage: "Look for existing key in current working directory",
+				},
+				cli.BoolFlag{
+					Name:  "non-rfc, n",
+					Usage: "Include instances which are not listed in the RFC",
 				},
 			},
 		},

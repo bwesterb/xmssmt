@@ -2,9 +2,8 @@ XMSSMT commandline tool
 =======================
 
 This is a commandline tool to sign and verify messages using the
-post-quantum stateful hash-based signature-scheme XMSSMT described in the
-RFC draft [XMSS: Extended Hash-Based Signatures](
-https://datatracker.ietf.org/doc/draft-irtf-cfrg-xmss-hash-based-signatures/).
+post-quantum stateful hash-based signature-scheme XMSSMT described in
+[rfc8391](https://tools.ietf.org/html/rfc8391).
 
 Installing
 ----------
@@ -92,17 +91,18 @@ key generation time and the next 1023 signatures are again very fast to create.
 
 ### Instance & parameters
 
-An XMSSMT instance has four main parameters
+An XMSSMT instance has five main parameters
 
  * The **hash function** used.  Either SHAKE or SHA2.  The XMSSMT authors prefer
    SHAKE, but SHA2 is around a third faster on the current implementation.
- * **n** is the main security parameter and is either 256 bits or 512 bits.
+ * **n** is the main security parameter and is either 128, 256 or 512 bits.
    512 bit signatures are at least twice as large (see `xmssmt algs`),
    and are approximately tree times as slow to create and verify.
    If you're unsure, use 256 bit.  Use 512 bit if
    
     1. you want your signatures to be trustworthy for at least a 100 years *and*
     2. you believe that performance per watt will keep increasing exponentially.
+
  * **tree height** determines the maximum number of signatures that can be created
    with a keypair.  With tree height t, one can create 2^t signatures.  So with the
    default tree height 40, we have about a trillion signatures.  With the other
@@ -110,7 +110,7 @@ An XMSSMT instance has four main parameters
    generation time and secret key (cache) size.  In contrast, signature size
    and signing/verifying-times will not change by much.
  * **d** is, in effect, a trade-off between
- 
+
      1. signature size and signature verification times and
      2. secret key (cache) size and keypair generation time.
    
@@ -121,8 +121,14 @@ An XMSSMT instance has four main parameters
    
    If long key generation time, ~250MB secret key cache and slow signing
    every millionth of a signature is not a problem, consider `d = (tree height) / 20`.
+ * **w** is a trade-off between
 
-The parameters are formatted as follows in the name
+    1. signature size
+    2. signing/verification/key generation time.
+
+   The default is `w=16`.  The RFC only lists instances with `w=16`.
+
+The parameters (for `w=16`) are formatted as follows in the name
 
     XMSSMT-(hash func)_(tree height)/(d)_(n in bits)
 
@@ -130,8 +136,13 @@ The special case `d=1` is formatted as
 
     XMSS-(hash func)_(tree height)_(n in bits)
 
+The parameter `w` can be specified by suffixing `_w(value of w)`, i.e.:
+
+    XMSSMT-SHAKE_60/12_512_w256
+
 See also
 --------
 
  * [atumd](https://github.com/bwesterb/atumd), a timestamping server that uses XMSSMT
  * [go-xmssmt](https://github.com/bwesterb/go-xmssmt), a Go package that implements XMSSMT.
+
