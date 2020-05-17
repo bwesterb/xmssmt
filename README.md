@@ -94,7 +94,7 @@ key generation time and the next 1023 signatures are again very fast to create.
 An XMSSMT instance has five main parameters
 
  * The **hash function** used.  Either SHAKE or SHA2.  The XMSSMT authors prefer
-   SHAKE, but SHA2 is around a third faster on the current implementation.
+   SHAKE and it's significantly faster than SHA2 (except for n=512.)
  * **n** is the main security parameter and is either 128, 256 or 512 bits.
    512 bit signatures are at least twice as large (see `xmssmt algs`),
    and are approximately tree times as slow to create and verify.
