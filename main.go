@@ -30,8 +30,9 @@ func main() {
 			Action: cmdAlgs,
 			Flags: []cli.Flag{
 				cli.BoolFlag{
-					Name:  "non-rfc, n",
-					Usage: "Include instances which are not listed in the RFC",
+					Name: "non-std, n",
+					Usage: "Include instances which are not listed in the RFC " +
+						"or NIST standard",
 				},
 			},
 		},
@@ -71,8 +72,12 @@ func main() {
 				},
 				cli.StringFlag{
 					Name:  "hash, H",
-					Usage: "Override hash function to use. (Either shake or sha2)",
+					Usage: "Override hash function to use. (shake, shake256 or sha2)",
 					Value: "shake",
+				},
+				cli.StringFlag{
+					Name:  "prf, P",
+					Usage: "Override prf function to use. (rfc or nist)",
 				},
 				cli.StringFlag{
 					Name:  "privkey, s",
@@ -140,8 +145,9 @@ func main() {
 					Usage: "Look for existing key in current working directory",
 				},
 				cli.BoolFlag{
-					Name:  "non-rfc, n",
-					Usage: "Include instances which are not listed in the RFC",
+					Name: "non-std, n",
+					Usage: "Include instances which are not listed in the " +
+						"RFC or NIST standard",
 				},
 			},
 		},

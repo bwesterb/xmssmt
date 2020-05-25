@@ -45,9 +45,23 @@ func cmdGenerate(c *cli.Context) error {
 			params.Func = xmssmt.SHA2
 		case "shake":
 			params.Func = xmssmt.SHAKE
+		case "shake256":
+			params.Func = xmssmt.SHAKE256
 		default:
 			return cli.NewExitError(fmt.Sprintf(
 				"The hash function %s is not supported", c.String("hash")), 2)
+		}
+	}
+
+	if c.IsSet("prf") {
+		switch c.String("prf") {
+		case "rfc":
+			params.Prf = xmssmt.RFC
+		case "nist":
+			params.Prf = xmssmt.NIST
+		default:
+			return cli.NewExitError(fmt.Sprintf(
+				"The PRF %s is not supported", c.String("prf")), 23)
 		}
 	}
 

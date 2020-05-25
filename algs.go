@@ -20,7 +20,7 @@ func cmdAlgs(c *cli.Context) error {
 		"sigSize",
 		"cache size"})
 	names := xmssmt.ListNames()
-	if c.Bool("non-rfc") {
+	if c.Bool("non-std") {
 		names = xmssmt.ListNames2()
 	}
 	for _, name := range names {

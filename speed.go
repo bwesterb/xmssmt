@@ -68,7 +68,7 @@ func cmdSpeed(c *cli.Context) error {
 		toTest = []string{algFlag}
 	} else {
 		toTest = xmssmt.ListNames()
-		if c.Bool("non-rfc") {
+		if c.Bool("non-std") {
 			toTest = xmssmt.ListNames2()
 		}
 	}
