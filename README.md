@@ -10,7 +10,7 @@ Installing
 
 To install `xmssmt`, get [Go](https://golang.org/) and run
 
-    go get github.com/bwesterb/xmssmt
+    GO111MODULE=on go get github.com/bwesterb/xmssmt
 
 Usage
 -----
