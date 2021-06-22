@@ -1,7 +1,7 @@
 module github.com/bwesterb/xmssmt
 
 require (
-	github.com/bwesterb/go-xmssmt v1.4.3
+	github.com/bwesterb/go-xmssmt v1.5.0
 	github.com/cpuguy83/go-md2man/v2 v2.0.0 // indirect
 	github.com/dustin/go-humanize v1.0.0
 	github.com/hashicorp/errwrap v1.1.0 // indirect

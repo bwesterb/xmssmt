@@ -6,6 +6,8 @@ github.com/bwesterb/byteswriter v1.0.0 h1:xY3MWW1N1jiJ2qlw6/U3YjqyuqNIYu3W7KOCiB
 github.com/bwesterb/byteswriter v1.0.0/go.mod h1:Gm9TBFNK7ypbrMrWZXBYqX2S1N8mc8DdoHW+Rl002Pc=
 github.com/bwesterb/go-xmssmt v1.4.3 h1:FCJCYQ6V1CuaRIPp+qwygVvuUSM2V+l/v7Pcr68vz9M=
 github.com/bwesterb/go-xmssmt v1.4.3/go.mod h1:HF48A0WMH2E21wN2oly7j2WVSGxxBaXt497K/nsTdgg=
+github.com/bwesterb/go-xmssmt v1.5.0 h1:nepbqZ5h/g7hS4uB65YGEQrh6y54//fWVzU9zoxDL/U=
+github.com/bwesterb/go-xmssmt v1.5.0/go.mod h1:HF48A0WMH2E21wN2oly7j2WVSGxxBaXt497K/nsTdgg=
 github.com/cespare/xxhash v1.1.0 h1:a6HrQnmkObjyL+Gs60czilIUGqrzKutQD6XZog3p+ko=
 github.com/cespare/xxhash v1.1.0/go.mod h1:XrSqR1VqqWfGrhpAt58auRo0WTKS1nRRg3ghfAqPWnc=
 github.com/cpuguy83/go-md2man/v2 v2.0.0-20190314233015-f79a8a8ca69d/go.mod h1:maD7wRr/U5Z6m/iR4s+kqSMx2CaBsrgA7czyZG/E6dU=
