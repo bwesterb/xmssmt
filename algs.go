@@ -13,7 +13,7 @@ import (
 
 func cmdAlgs(c *cli.Context) error {
 	table := tablewriter.NewWriter(os.Stdout)
-	table.SetHeader([]string{
+	table.Header([]string{
 		"name",
 		"oid",
 		"#sigs",
